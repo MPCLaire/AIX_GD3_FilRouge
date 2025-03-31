@@ -89,7 +89,11 @@ bool AMasterMindGM::CheckAnswer(TArray<uint8> Answer)
 			}
 		}
 	}
+
+	OnSolutionChecked.Broadcast(GoodPlaces,WrongPlaces);
 	return result;
 	
 }
+
+
 

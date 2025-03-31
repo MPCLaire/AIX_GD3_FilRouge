@@ -17,7 +17,7 @@ AMastermindRow::AMastermindRow()
 void AMastermindRow::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	Manager->OnSolutionChecked.AddDynamic(this, &AMastermindRow::ApplySolution);
 }
 
 // Called every frame
@@ -36,5 +36,9 @@ void AMastermindRow::Clicked()
 		Answer[i] = PlayerSpheres[i]->GetComponentByClass<UMastermindSphere>()->GetSphereColor();
 	}
 	Manager->CheckAnswer(Answer);
+}
+
+void AMastermindRow::ApplySolution(uint8 GoodPlaces, uint8 WrongPlaces)
+{
 }
 

@@ -35,4 +35,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void Clicked();
+
+	UFUNCTION(BlueprintCallable)
+	void ApplySolution(uint8 GoodPlaces, uint8 WrongPlaces);
 };
