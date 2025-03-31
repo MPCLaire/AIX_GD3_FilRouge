@@ -15,7 +15,7 @@ AMasterMindGM::AMasterMindGM()
 void AMasterMindGM::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	CreateSolution();
 }
 
 // Called every frame
@@ -43,12 +43,53 @@ void AMasterMindGM::CreateSolution()
 	for(uint8 i = 0; i < 4; i++)
 	{
 		Solution[i] = FMath::RandRange(0,5);
+		UE_LOG(LogTemp, Warning, TEXT("Solution [%d]"), i);
 	}
 }
 
 bool AMasterMindGM::CheckAnswer(TArray<uint8> Answer)
 {
-	UE_LOG(LogTemp,Warning,TEXT("CheckAnswer Done"));
-	return true;
+
+	bool result = true;
+	uint8 GoodPlaces = 0;
+	uint8 WrongPlaces = 0;
+	TArray<bool> SolutionAllowed {true, true, true, true};
+	TArray<bool> AnswersAllowed {true, true, true, true};
+	
+	// trouve les réponses bien placées et les stock dans GoodPlaces
+	for (uint8 i = 0; i < 4; i++)
+	{
+		if (Answer[i] == Solution[i])
+		{
+			SolutionAllowed[i] = false;
+			AnswersAllowed[i] = false;
+			UE_LOG(LogTemp, Warning, TEXT("CheckAnswer [%d]: Oui"), i);
+			GoodPlaces++;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("CheckAnswer [%d]: Non"), i);
+			result = false;
+		}
+	}
+	
+	//Vérifie les cases qui ne sont pas bien placées et les compare à la solution 1 par 1
+	for (uint8 i = 0; i < 4; i++)
+	{
+		if (AnswersAllowed[i])
+		{
+			for (uint8 j = 0; j < 4; j++)
+			{
+				if (SolutionAllowed[j] && Answer[i] == Solution[j])
+				{
+					WrongPlaces++;
+					SolutionAllowed[j] = false;
+					break;
+				}
+			}
+		}
+	}
+	return result;
+	
 }
 
