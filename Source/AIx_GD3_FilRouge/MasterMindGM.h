@@ -44,4 +44,15 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool CheckAnswer(TArray<uint8> Answer);
 
+	UFUNCTION(BlueprintImplementableEvent, Category ="MasterMind")
+	void SetNextRow();
+
+	UPROPERTY(EditAnywhere)
+	int8 MaxRowNumber = 5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	AActor* RowRef;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<AActor> RowClass;
 };

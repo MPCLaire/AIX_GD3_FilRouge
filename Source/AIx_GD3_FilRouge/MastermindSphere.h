@@ -32,6 +32,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	FLinearColor BlockedColor = FLinearColor::Black;
+
+	UPROPERTY(EditAnywhere)
+	bool CanInteract = true;
 	
 protected:
 	// Called when the game starts

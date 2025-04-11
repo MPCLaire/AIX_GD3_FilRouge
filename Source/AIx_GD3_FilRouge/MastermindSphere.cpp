@@ -45,17 +45,19 @@ void UMastermindSphere::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 void UMastermindSphere::Clicked(UPrimitiveComponent* ClickedComp, FKey ButtonPressed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Composant cliqué !"));
-	ActualColorNumber ++;
-	if (ActualColorNumber >= 6)
+	if (CanInteract == true)
 	{
-		ActualColorNumber = 0;
+		UE_LOG(LogTemp, Warning, TEXT("Composant cliqué !"));
+		ActualColorNumber ++;
+		if (ActualColorNumber >= 6)
+		{
+			ActualColorNumber = 0;
+		}
+		if(Manager)
+		{
+			ChangeColor(Manager->GetColor(ActualColorNumber));
+		}	
 	}
-	if(Manager)
-	{
-		ChangeColor(Manager->GetColor(ActualColorNumber));
-	}
-	
 }
 
 void UMastermindSphere::Unblock()

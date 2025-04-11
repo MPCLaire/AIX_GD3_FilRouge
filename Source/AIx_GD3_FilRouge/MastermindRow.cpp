@@ -17,6 +17,7 @@ AMastermindRow::AMastermindRow()
 void AMastermindRow::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	Manager->OnSolutionChecked.AddDynamic(this, &AMastermindRow::ApplySolution);
 }
 
@@ -40,5 +41,34 @@ void AMastermindRow::Clicked()
 
 void AMastermindRow::ApplySolution(uint8 GoodPlaces, uint8 WrongPlaces)
 {
+	for (int i = 0; i < 4; i++)
+	{
+		if (GoodPlaces > 0)
+		{
+			AnswerSpheres[i]->ToggleVisibility();
+			UMaterialInstanceDynamic* DynMaterial = AnswerSpheres[i]->CreateAndSetMaterialInstanceDynamic(0);
+			if (DynMaterial)
+			{
+				DynMaterial->SetVectorParameterValue("Color", FLinearColor::Green);
+			}
+			GoodPlaces = GoodPlaces - 1;
+		}
+		if (WrongPlaces > 0)
+		{
+			AnswerSpheres[i]->ToggleVisibility();
+			UMaterialInstanceDynamic* DynMaterial = AnswerSpheres[i]->CreateAndSetMaterialInstanceDynamic(0);
+			if (DynMaterial)
+			{
+				DynMaterial->SetVectorParameterValue("Color", FLinearColor::Red);
+			}
+			WrongPlaces = WrongPlaces - 1;
+		}
+	}
+
+	Manager->SetNextRow();
 }
+
+
+
+
 
